@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { Switch, Route, Redirect } from "react-router-dom"
+import {
+  Home,
+  BooksManagement,
+  BooksList,
+  OrderList,
+  OrderManagement,
+  UserList,
+  UserInfo,
+  Login
+} from "@pages"
+import layoutcom from "@layout"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+@layoutcom
+class App extends Component {
+  render() {
+    return (
+      <Switch>
+        <Redirect from="/" to="/home" exact />
+        <Route path="/home" component={Home} />
+        {/* 书籍管理 */}
+        <Route path="/books" render={() => {
+          return (
+            <Switch>
+              <Route path="/books/booksList" component={BooksList} />
+              <Route path="/books/booksManagement" component={BooksManagement} />
+            </Switch>
+          )
+        }} />
+        {/* 订单管理 */}
+        <Route path="/order" render={() => {
+          return (
+            <Switch>
+              <Route path="/order/orderList" component={OrderList} />
+              <Route path="/order/orderManagement" component={OrderManagement} />
+            </Switch>
+          )
+        }} />
+        {/* 用户管理 */}
+        <Route path="/user" render={() => {
+          return (
+            <Switch>
+              <Route path="/user/userList" component={UserList} />
+              <Route path="/user/userManagement" component={UserInfo} />
+            </Switch>
+          )
+        }} />
+        {/* 登陆页面 */}
+        <Route path="/login" component={Login} />
+      </Switch>
+    )
+  }
 }
 
-export default App;
+export default App
